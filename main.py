@@ -36,8 +36,34 @@ async def find_profile(
     request: Request,
     profile_req: CourseListRequest
 ):
+    final_mass = {'insan_sarrafi':0 , 
+                  'kultur_mantari':0 , 
+                  'vizyoner':0 , 
+                  'cok_yonlu':0 , 
+                  'hedef_odakli':0 , 
+                  'teknoloji_gurusu':0 , 
+                  'kisisel_gelisim':0}
+    
     for course in profile_req.course_list:
-        print(course)
+        if course.tier == "S":
+            print("S TIER COURSE DETECTED")
+            for profile_id, mass in course.profile_mass.items():
+                final_mass[profile_id] += mass
+        elif course.tier == "A":
+            print("A TIER COURSE DETECTED")
+            for profile_id, mass in course.profile_mass.items():
+                final_mass[profile_id] += mass * 0.75
+        elif course.tier == "B":
+            print("B TIER COURSE DETECTED")
+            for profile_id, mass in course.profile_mass.items():
+                final_mass[profile_id] += mass * 0.3
+        elif course.tier == "C":
+            print("C TIER COURSE DETECTED")
+            for profile_id, mass in course.profile_mass.items():
+                final_mass[profile_id] += mass * 0.1
+    print("FINAL MASS:",final_mass)
+
+    
 
     return {"message": "dummy", "data": profile_req}
 #endregion

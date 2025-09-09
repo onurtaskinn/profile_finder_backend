@@ -15,6 +15,7 @@ class Course(BaseModel):
     name: str = Field(..., description="Name of the course")
     description: str = Field(..., description="Description of the course")
     image: str = Field(..., description="Path to the course image")
+    profile_mass: dict = Field(..., description="Profile mass distribution for the course")
     tier: str = Field(..., description="Tier of the course, S, A, B, C")
 
 class CourseListRequest(BaseModel):
