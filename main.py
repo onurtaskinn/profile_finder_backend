@@ -4,10 +4,12 @@ import asyncio
 from typing import Optional
 
 from dotenv import load_dotenv
-from datamodels import CourseListRequest
+from utils.datamodels import CourseListRequest, FindProfileResponse
 
 from fastapi import FastAPI,Request, Form
 from fastapi.middleware.cors import CORSMiddleware
+from utils.helper_functions import call_personalized_message_generator
+from utils.profile_types import PROFILE_TYPES
 
 
 
@@ -63,8 +65,31 @@ async def find_profile(
                 final_mass[profile_id] += mass * 0.1
     print("FINAL MASS:",final_mass)
 
-    
+    AI_Response, input_tokens, output_tokens = call_personalized_message_generator(final_mass)
 
-    return {"message": "dummy", "data": profile_req}
+
+    print("AI RESPONSE:",AI_Response.personalized_message)
+
+    
+    max = 0
+    for key in final_mass:
+        if final_mass[key] > max:
+            max = final_mass[key]
+            profile = key
+
+
+    profile_name = PROFILE_TYPES[profile]["name"]
+    print("IDENTIFIED PROFILE:",profile_name)
+    profile_description = PROFILE_TYPES[profile]["description"]
+    print("PROFILE DESCRIPTION:",profile_description)
+
+    final_response = FindProfileResponse(
+        profile_name=profile_name,
+        profile_description=profile_description,
+        all_profiles=final_mass,
+        personalized_message=AI_Response.personalized_message
+    )
+
+    return final_response
 #endregion
 
