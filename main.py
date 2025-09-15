@@ -6,8 +6,10 @@ from typing import Optional
 from dotenv import load_dotenv
 from utils.datamodels import CourseListRequest, FindProfileResponse
 
-from fastapi import FastAPI,Request, Form
+from fastapi import FastAPI, HTTPException,Request, Form
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
+
 from utils.helper_functions import call_personalized_message_generator
 from utils.profile_types import PROFILE_TYPES
 
@@ -19,10 +21,11 @@ is_production = os.getenv("ENVIRONMENT") == "production"
 
 
 app = FastAPI(
-    root_path="/profile-finder-api",
     title="Profile Finder API",
     version="1.0.0"
 )
+
+app.mount("/images", StaticFiles(directory="images"), name="images")
 
 app.add_middleware(
     CORSMiddleware,
@@ -41,10 +44,8 @@ async def find_profile(
     final_mass = {'insan_sarrafi':0 , 
                   'kultur_mantari':0 , 
                   'vizyoner':0 , 
-                  'cok_yonlu':0 , 
-                  'hedef_odakli':0 , 
                   'teknoloji_gurusu':0 , 
-                  'kisisel_gelisim':0}
+                  'kisisel_gelisen':0}
     
     for course in profile_req.course_list:
         if course.tier == "S":
@@ -92,6 +93,62 @@ async def find_profile(
 
     return final_response
 
+
+
+# Add these imports to your main.py
+import uuid
+from utils.course_loader import load_courses_data, group_courses_by_type, select_balanced_courses, transform_course_data
+from utils.datamodels import TournamentCoursesResponse, TournamentCourse
+
+# Add this new endpoint to your FastAPI app
+@app.get("/get-tournament-courses")
+async def get_tournament_courses():
+    """
+    Select 16 balanced courses for tournament:
+    - 3 courses from each of 4 profile types
+    - 4 courses from 1 randomly selected profile type
+    Total: 16 courses
+    """
+    try:
+        # Load all courses from data.json
+        all_courses = load_courses_data()
+
+        # Yin Yoga ile Masabaşı Esneme Molası: Bedeninizi ve Zihninizi Yenileyin #
+        
+        # Group courses by their primary profile type
+        grouped_courses = group_courses_by_type(all_courses)
+        
+        # Log the distribution for debugging
+        print("Course distribution by type:")
+        for profile_type, courses in grouped_courses.items():
+            print(f"  {profile_type}: {len(courses)} courses")
+        
+        # Select balanced courses
+        selected_courses = select_balanced_courses(grouped_courses)
+        
+        if len(selected_courses) < 16:
+            print(f"Warning: Only {len(selected_courses)} courses selected, expected 16")
+        
+        # Transform courses to API format
+        tournament_courses = []
+        for i, course in enumerate(selected_courses, 1):
+            transformed_course = transform_course_data(course, i)
+            tournament_courses.append(TournamentCourse(**transformed_course))
+        
+        # Generate unique tournament ID
+        tournament_id = str(uuid.uuid4())
+        
+        response = TournamentCoursesResponse(
+            tournament_id=tournament_id,
+            courses=tournament_courses
+        )
+        
+        print(f"Tournament {tournament_id} created with {len(tournament_courses)} courses")
+        return response
+        
+    except Exception as e:
+        print(f"Error creating tournament: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Error creating tournament: {str(e)}")
 
 
 if __name__ == "__main__":

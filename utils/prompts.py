@@ -10,8 +10,6 @@ Profil Tipleri:
 - İnsan Sarrafı: İnsanları anlama, empati, sosyal beceriler, iletişim, liderlik, duygusal zeka
 - Kültür Mantarı: Sürekli öğrenme, merak, bilgi biriktirme, çok çeşitli konulara ilgi
 - Vizyoner: Gelecek görme, büyük resim, yaratıcı çözümler, stratejik planlama, yenilikçilik
-- Çok Yönlü: Çok alanlı yetenek, adaptasyon, esneklik, farklı becerileri geliştirme
-- Hedef Odaklı: Amaç odaklılık, sistematik yaklaşım, sonuç odaklılık, planlama, zaman yönetimi
 - Teknoloji Gurusu: Teknoloji takibi, dijital araçlar, analitik problem çözme, yenilikçilik
 - Kişisel Gelişim: Kendini geliştirme, özgüven, motivasyon, iç keşif, öz farkındalık
 
@@ -27,10 +25,8 @@ personalized_message_generator_user_prompt = """Aşağıdaki profil kütlesi de�
 İnsan Sarrafı: {insan_sarrafi}
 Kültür Mantarı: {kultur_mantari}
 Vizyoner: {vizyoner}
-Çok Yönlü: {cok_yonlu}
-Hedef Odaklı: {hedef_odakli}
 Teknoloji Gurusu: {teknoloji_gurusu}
-Kişisel Gelişim: {kisisel_gelisim}
+Kişisel Gelişim: {kisisel_gelisen}
 
 Lütfen şunları içeren bir analiz oluştur:
 

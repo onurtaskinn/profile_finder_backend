@@ -32,3 +32,18 @@ class FindProfileResponse(BaseModel):
 
 class PersonalizedMessageResponse(BaseModel):
     personalized_message: str = Field(..., description="Personalized message based on the identified profile")
+
+
+
+# Add this to your existing datamodels.py
+
+class TournamentCourse(BaseModel):
+    id: int = Field(..., description="Unique identifier for the course")
+    name: str = Field(..., description="Name of the course")
+    description: str = Field(..., description="Description of the course")
+    image: str = Field(..., description="Path to the course image")
+    profile_mass: dict = Field(..., description="Profile mass distribution for the course")
+
+class TournamentCoursesResponse(BaseModel):
+    tournament_id: str = Field(..., description="Unique identifier for this tournament session")
+    courses: List[TournamentCourse] = Field(..., description="List of 16 selected courses for tournament")

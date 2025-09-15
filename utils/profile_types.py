@@ -23,8 +23,8 @@ PROFILE_TYPES = {
         "name": "Teknoloji Gurusu",
         "description": "Teknolojik gelişmeleri takip eden, dijital araçları etkin kullanan ve yeniliklere açık. Problem çözme konusunda analitik."
     },
-    'kisisel_gelisim': {
-        "name": "Kişisel Gelişim",
+    'kisisel_gelisen': {
+        "name": "Kişisel Gelişen",
         "description": "Kendini sürekli geliştirmeye odaklanan, özgüven ve motivasyon konularında güçlü. İç dünyasını keşfetmeyi seven."
     }
 }

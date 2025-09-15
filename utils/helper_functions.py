@@ -25,10 +25,8 @@ def call_personalized_message_generator(final_mass):
                     insan_sarrafi=final_mass['insan_sarrafi'],
                     kultur_mantari=final_mass['kultur_mantari'],
                     vizyoner=final_mass['vizyoner'],
-                    cok_yonlu=final_mass['cok_yonlu'],
-                    hedef_odakli=final_mass['hedef_odakli'],
                     teknoloji_gurusu=final_mass['teknoloji_gurusu'],
-                    kisisel_gelisim=final_mass['kisisel_gelisim']
+                    kisisel_gelisen=final_mass['kisisel_gelisen']
                 )
             }
         ],
