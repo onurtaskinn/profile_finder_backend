@@ -25,9 +25,9 @@ class CourseListRequest(BaseModel):
 class FindProfileResponse(BaseModel):
     profile_name: str = Field(..., description="Name of the identified profile")
     profile_description: str = Field(..., description="Description of the identified profile")
+    female_image_url: str = Field(..., description="Image URL for the female version of the profile")
+    male_image_url: str = Field(..., description="Image URL for the male version of the profile")    
     all_profiles: dict = Field(..., description="Mass distribution across all profiles")
-    # recommended_courses: List[Course] = Field(..., description="List of recommended courses for the identified profile") ### MAYBE
-    personalized_message: str = Field(..., description="Personalized message based on the identified profile")
 
 
 class PersonalizedMessageResponse(BaseModel):
